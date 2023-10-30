@@ -74,22 +74,129 @@ const loginUser = (userLogin) => {
                 isAdmin: checkUser.isAdmin
             })
 
-            if (createUser) {
-                resolve({
-                    status: 'OK',
-                    message: 'SUCCESS',
-                    access_token,
-                    refresh_token
-                })
-            }
-            resolve({})
+            resolve({
+                status: 'OK',
+                message: 'SUCCESS',
+                access_token,
+                refresh_token
+            })
+
         } catch (e) {
             reject(e)
         }
     })
 }
 
+const updateUser = (id, data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkUser = await User.findOne({
+                _id: id
+            })
+
+            if (checkUser === null) {
+                resolve({
+                    status: 'OK',
+                    message: "The email is not define"
+                })
+
+            }
+
+            console.log('checkUser', checkUser)
+
+            const updatedUser = await User.findByIdAndUpdate(id, data)
+            console.log('updateUser', updateUser, { new: true });
+
+            resolve({
+                status: 'OK',
+                message: 'SUCCESS',
+                data: updatedUser
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+const deleteUser = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkUser = await User.findOne({
+                _id: id
+            })
+
+            if (checkUser === null) {
+                resolve({
+                    status: 'OK',
+                    message: "The email is not define"
+                })
+
+            }
+
+            await User.findByIdAndDelete(id)
+
+
+            resolve({
+                status: 'OK',
+                message: 'detete SUCCESS',
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+const getAllUser = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const allUser = await User.find()
+            resolve({
+                status: 'OK',
+                message: 'get All SUCCESS',
+                data: allUser
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+const getDetailsUser = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkUser = await User.findOne({
+                _id: id
+            })
+
+            if (checkUser === null) {
+                resolve({
+                    status: 'OK',
+                    message: "The email is not define"
+                })
+
+            }
+
+            const detailsUser = await User.findById(id)
+
+
+            resolve({
+                status: 'OK',
+                message: ' SUCCESS',
+                data: detailsUser
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    updateUser,
+    deleteUser,
+    getAllUser,
+    getDetailsUser,
+
 }

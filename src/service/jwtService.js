@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+dotenv.config()
 
 
 const genneralAccessToken = async (payload) => {
     const access_token = jwt.sign({
         payload,
-    }, 'access_token', { expiresIn: '1h' })
+    }, process.env.ACCESS_TOKEN, { expiresIn: '30s' })
 
     return access_token
 }
@@ -12,12 +14,56 @@ const genneralAccessToken = async (payload) => {
 const genneralRefreshToken = async (payload) => {
     const refresh_token = jwt.sign({
         payload,
-    }, 'refresh_token', { expiresIn: '365d' })
+    }, process.env.REFRESH_TOKEN, { expiresIn: '365d' })
 
     return refresh_token
 }
 
+const refreshTokenJwt = async (token) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            jwt.verify(token, process.env.REFRESH_TOKEN, async function (err, user) {
+                if (err) {
+                    resolve({
+                        message: 'The authentication',
+                        status: 'ERROR'
+                    })
+                }
+                // console.log('user', user);
+                const { payload } = user
+                const access_token = await genneralAccessToken({
+                    id: payload.id,
+                    isAdmin: payload.isAdmin
+                })
+
+                console.log('access_token', access_token);
+
+                resolve({
+                    status: 'OK',
+                    message: ' SUCCESS',
+                    access_token
+                })
+
+            })
+
+
+
+            // const refresh_token = jwt.sign({
+            //     payload,
+            // }, process.env.REFRESH_TOKEN, { expiresIn: '365d' })
+
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+
+
+}
+
+
 module.exports = {
     genneralAccessToken,
-    genneralRefreshToken
+    genneralRefreshToken,
+    refreshTokenJwt
 }
