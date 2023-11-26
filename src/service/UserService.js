@@ -12,7 +12,7 @@ const createUser = (newUser) => {
 
             if (checkUser !== null) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
                     message: "The email is already"
                 })
 
@@ -50,7 +50,7 @@ const loginUser = (userLogin) => {
 
             if (checkUser === null) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
                     message: "The email is not define"
                 })
 
@@ -60,7 +60,7 @@ const loginUser = (userLogin) => {
             console.log("compareeee", comparePassword);
             if (!comparePassword) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
                     message: "The password incorrrect"
                 })
             }
@@ -102,17 +102,18 @@ const updateUser = (id, data) => {
 
             }
 
-            console.log('checkUser', checkUser)
+            // console.log('checkUser', checkUser)
 
-            const updatedUser = await User.findByIdAndUpdate(id, data)
-            console.log('updateUser', updateUser, { new: true });
-
+            const updatedUser = await User.findByIdAndUpdate(id, data, { new: true })
             resolve({
                 status: 'OK',
                 message: 'SUCCESS',
-                data: updatedUser
+                data: updatedUser,
+
             })
+            console.log("SUCCESSSSSS");
         } catch (e) {
+            console.log(e);
             reject(e)
         }
     })

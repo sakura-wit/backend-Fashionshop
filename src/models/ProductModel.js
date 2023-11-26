@@ -10,7 +10,9 @@ const productSchema = new mongoose.Schema(
         rating: { type: Number, required: true },
         description: { type: String },
         discount: { type: Number },
-        selled: { type: Number }
+        selled: { type: Number },
+        hash: { type: String },
+        imageDetail: { type: Array }
     },
     {
         timestamps: true,

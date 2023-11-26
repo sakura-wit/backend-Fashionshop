@@ -8,7 +8,8 @@ const createUser = async (req, res) => {
         const { name, email, password, confirmPassword, phone } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmail = reg.test(email)
-        if (!name || !email || !password || !confirmPassword || !phone) {
+        if (!email || !password || !confirmPassword) {
+            console.log(req);
             return res.status(200).json({
                 status: 'ERR',
                 message: 'the input is required'
@@ -41,7 +42,7 @@ const loginUser = async (req, res) => {
         const { name, email, password, confirmPassword, phone } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmail = reg.test(email)
-        if (!name || !email || !password) {
+        if (!email || !password) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'the input is required'
@@ -124,7 +125,7 @@ const getDetailsUser = async (req, res) => {
         const userId = req.params.id
 
         if (!userId) {
-            return res.status(200).json({
+            return res.status(404).json({
                 status: 'ERR',
                 message: 'The userId is required'
             })
