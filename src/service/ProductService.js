@@ -82,8 +82,9 @@ const deleteProduct = (id) => {
                     message: "The id is not define"
                 })
             }
-
-            await Product.findOneAndDelete(id)
+            console.log('iddddd', id);
+            await Product.findByIdAndDelete(id)
+            Product.fin
             resolve({
                 status: "OK",
                 message: "delete product Success"

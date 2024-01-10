@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
         address: { type: String },
         avatar: { type: String },
         city: { type: String },
-        cart: { type: Object }
+        cart: { type: Object },
 
     },
     {

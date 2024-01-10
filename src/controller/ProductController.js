@@ -7,7 +7,7 @@ const createProduct = async (req, res) => {
 
         const { name, image, type, price, countInStock, rating, description, discount, selled } = req.body
 
-        if (!name || !image || !type || !price || !countInStock || !rating) {
+        if (!name || !image || !type || !price || !countInStock) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'the input is required'
@@ -50,8 +50,7 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
     try {
-
-
+        console.log('requessDel', req);
         const productId = req.params.id
         if (!productId) {
             return res.status(404).json({
@@ -62,7 +61,6 @@ const deleteProduct = async (req, res) => {
 
         const response = await ProductService.deleteProduct(productId)
         return res.status(200).json(response)
-
     } catch (e) {
         console.log('errr ', e);
         return res.status(404).json({
@@ -75,7 +73,7 @@ const deleteProduct = async (req, res) => {
 const getAllProduct = async (req, res) => {
     try {
         const { limit, page, sort, filter } = req.query
-        const response = await ProductService.getAllProduct(Number(limit) || 8, Number(page) || 0, sort, filter)
+        const response = await ProductService.getAllProduct(Number(limit), Number(page) || 0, sort, filter)
         return res.status(200).json(response)
     } catch (e) {
         console.log('errr ', e);

@@ -12,7 +12,10 @@ const productSchema = new mongoose.Schema(
         discount: { type: Number },
         selled: { type: Number },
         hash: { type: String },
-        imageDetail: { type: Array }
+        imageDetail: { type: Array },
+        imageView: { type: Array },
+        size: { type: Array },
+        branch: { type: Array }
     },
     {
         timestamps: true,
