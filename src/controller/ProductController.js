@@ -50,7 +50,7 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
     try {
-        console.log('requessDel', req);
+        // console.log('requessDel', req);
         const productId = req.params.id
         if (!productId) {
             return res.status(404).json({
