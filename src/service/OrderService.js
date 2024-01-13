@@ -3,7 +3,7 @@ const Order = require("../models/OrderProduct")
 const createOrder = (newOrder) => {
     return new Promise(async (resolve, reject) => {
         const { orderItems, confirm, email, name, shippingAddress, paymentMethod, itemsPrice, shippingPrice, totalPrice, user, isPaid,
-            paidAt, isDelivered, deliveredAt } = newOrder
+            paidAt, isDelivered, deliveredAt, note } = newOrder
         try {
 
             const createOrder = await Order.create({
@@ -20,7 +20,8 @@ const createOrder = (newOrder) => {
                 isPaid,
                 paidAt,
                 isDelivered,
-                deliveredAt
+                deliveredAt,
+                note
             })
 
             if (createOrder) {
@@ -111,8 +112,35 @@ const updateOrder = (id, data) => {
     })
 }
 
+
+const deleteOrder = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkOrder = await Order.findOne({
+                _id: id
+            })
+
+            if (checkOrder === null) {
+                resolve({
+                    status: "Done",
+                    message: "The id is not define"
+                })
+            }
+            console.log('iddddd', id);
+            await Order.findByIdAndDelete(id)
+            resolve({
+                status: "OK",
+                message: "delete order Success"
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = {
     createOrder,
     getAllOrder,
-    updateOrder
+    updateOrder,
+    deleteOrder
 }

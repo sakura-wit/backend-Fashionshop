@@ -64,8 +64,31 @@ const updateOrder = async (req, res) => {
     }
 }
 
+const deleteOrder = async (req, res) => {
+    try {
+        // console.log('requessDel', req);
+        const orderId = req.params.id
+        if (!orderId) {
+            return res.status(404).json({
+                status: 'ERR',
+                message: 'The productId is required'
+            })
+        }
+
+        const response = await OrderService.deleteOrder(orderId)
+        return res.status(200).json(response)
+    } catch (e) {
+        console.log('errr ', e);
+        return res.status(404).json({
+            message: e
+
+        })
+    }
+}
+
 module.exports = {
     createOrder,
     getAllOrder,
-    updateOrder
+    updateOrder,
+    deleteOrder
 }
