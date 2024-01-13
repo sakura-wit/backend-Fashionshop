@@ -1,5 +1,7 @@
 const Order = require("../models/OrderProduct")
 
+const EmailService = require("../service/EmailService")
+
 const createOrder = (newOrder) => {
     return new Promise(async (resolve, reject) => {
         const { orderItems, confirm, email, name, shippingAddress, paymentMethod, itemsPrice, shippingPrice, totalPrice, user, isPaid,
@@ -25,6 +27,7 @@ const createOrder = (newOrder) => {
             })
 
             if (createOrder) {
+                await EmailService.sendEmailCreateOrder(email, orderItems)
                 resolve({
                     status: 'OK',
                     message: 'SUCCESS',

@@ -15,7 +15,8 @@ const productSchema = new mongoose.Schema(
         imageDetail: { type: Array },
         imagePreview: { type: Array },
         size: { type: Array },
-        branch: { type: Array }
+        branch: { type: Array },
+        note: { type: String }
     },
     {
         timestamps: true,
